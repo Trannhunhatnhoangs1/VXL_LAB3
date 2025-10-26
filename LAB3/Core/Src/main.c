@@ -18,7 +18,6 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include <fsm.h>
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -27,6 +26,7 @@
 #include "software_timer.h"
 #include "traffic_led.h"
 #include "led_display.h"
+#include "fsm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,20 +94,21 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT (&htim2 );
-
   button_reading_Init();
   LED_TRAFFIC_STORE_BUFFER(5, 0);
   LED_TRAFFIC_STORE_BUFFER(2, 1);
   LED_TRAFFIC_STORE_BUFFER(3, 2);
   LED_TRAFFIC_LOAD_BUFFER();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-  setTimer0(1000);
-  setTimer1(250);
-  setTimer2(1000);
+
+  setTimer(1000);
+  setBlinkLedTimer(250);
+  setLED7Timer(250);
   while (1)
   {
 	  fsm_for_output_processing();

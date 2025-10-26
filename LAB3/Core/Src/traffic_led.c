@@ -4,6 +4,7 @@
  * Rewritten using switch-case for clarity.
  */
 
+
 #include "main.h"
 #include "traffic_led.h"
 #include "led_display.h"
@@ -14,30 +15,29 @@
 #define AMBER 1
 #define GREEN 2
 
-// Timer buffer for each LED color
+//we define the buffer to store time_of_led
 static uint8_t bufferTimerForLED[N0_OF_LED];
 
-// Counters for each LED group
-static uint8_t counterRED1, counterAMBER1, counterGREEN1;
-static uint8_t counterRED2, counterAMBER2, counterGREEN2;
+//we define some sub-variable counter for each led
+static uint8_t counterRED1, counterAMBER1, counterGREEN1,  counterRED2, counterAMBER2, counterGREEN2;
 
-// Duration for each light
+//we define variable timer to save time each led
 static uint8_t timeRED, timeAMBER, timeGREEN;
 
-// State variables (for switch-case)
-static uint8_t state_vertical = GREEN;
-static uint8_t state_horizontal = RED;
-
-void LED_TRAFFIC_INIT(void) {
+// Function to turn off all led
+void LED_TRAFFIC_INIT(void){
 	HAL_GPIO_WritePin(LED_RED1_GPIO_Port, LED_RED1_Pin, SET);
 	HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, SET);
 	HAL_GPIO_WritePin(LED_AMBER1_GPIO_Port, LED_AMBER1_Pin, SET);
 	HAL_GPIO_WritePin(LED_AMBER2_GPIO_Port, LED_AMBER2_Pin, SET);
 	HAL_GPIO_WritePin(LED_GREEN1_GPIO_Port, LED_GREEN1_Pin, SET);
 	HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, SET);
+
 }
 
-void LED_TRAFFIC_LOAD_BUFFER(void) {
+// Function to load value are saved in buffer to counter and time of each led
+
+void LED_TRAFFIC_LOAD_BUFFER(void){
 	counterRED1 = bufferTimerForLED[RED];
 	counterAMBER1 = bufferTimerForLED[AMBER];
 	counterGREEN1 = bufferTimerForLED[GREEN];
@@ -47,6 +47,11 @@ void LED_TRAFFIC_LOAD_BUFFER(void) {
 	timeRED = bufferTimerForLED[RED];
 	timeAMBER = bufferTimerForLED[AMBER];
 	timeGREEN = bufferTimerForLED[GREEN];
+}
+
+// Function to store value in buffer
+void LED_TRAFFIC_STORE_BUFFER(uint8_t time, uint8_t index){
+	bufferTimerForLED[index] = time;
 }
 uint8_t LED_TRAFFIC_GET_RED(void) {
     return bufferTimerForLED[RED];
@@ -60,93 +65,96 @@ uint8_t LED_TRAFFIC_GET_GREEN(void) {
     return bufferTimerForLED[GREEN];
 }
 
-void LED_TRAFFIC_STORE_BUFFER(uint8_t time, uint8_t index) {
-	bufferTimerForLED[index] = time;
-}
-
-/* ===================== VERTICAL TRAFFIC ===================== */
+// Function to setting led in vertical
 void LED_VERTICAL_RUN(void) {
-	switch (state_vertical) {
-	case GREEN:
-		update_vertical_clock_buffer(counterGREEN2);
-		HAL_GPIO_WritePin(LED_RED1_GPIO_Port, LED_RED1_Pin, SET);
-		HAL_GPIO_WritePin(LED_AMBER1_GPIO_Port, LED_AMBER1_Pin, SET);
-		HAL_GPIO_WritePin(LED_GREEN1_GPIO_Port, LED_GREEN1_Pin, RESET);
+    // --- GREEN ---
+    if (counterGREEN2 > 0) {
+        update_vertical_clock_buffer(counterGREEN2);
+        HAL_GPIO_WritePin(LED_RED1_GPIO_Port,   LED_RED1_Pin,   SET);
+        HAL_GPIO_WritePin(LED_AMBER1_GPIO_Port, LED_AMBER1_Pin, SET);
+        HAL_GPIO_WritePin(LED_GREEN1_GPIO_Port, LED_GREEN1_Pin, RESET);
 
-		if (--counterGREEN2 == 0) {
-			counterAMBER2 = timeAMBER;
-			state_vertical = AMBER;
-		}
-		break;
+        counterGREEN2--;
+        if (counterGREEN2 == 0) {
+            counterAMBER2 = timeAMBER;
+        }
+        return;
+    }
 
-	case AMBER:
-		update_vertical_clock_buffer(counterAMBER2);
-		HAL_GPIO_WritePin(LED_RED1_GPIO_Port, LED_RED1_Pin, SET);
-		HAL_GPIO_WritePin(LED_AMBER1_GPIO_Port, LED_AMBER1_Pin, RESET);
-		HAL_GPIO_WritePin(LED_GREEN1_GPIO_Port, LED_GREEN1_Pin, SET);
+    // --- AMBER ---
+    if (counterAMBER2 > 0) {
+        update_vertical_clock_buffer(counterAMBER2);
+        HAL_GPIO_WritePin(LED_RED1_GPIO_Port,   LED_RED1_Pin,   SET);
+        HAL_GPIO_WritePin(LED_AMBER1_GPIO_Port, LED_AMBER1_Pin, RESET);
+        HAL_GPIO_WritePin(LED_GREEN1_GPIO_Port, LED_GREEN1_Pin, SET);
 
-		if (--counterAMBER2 == 0) {
-			counterRED2 = timeRED;
-			state_vertical = RED;
-		}
-		break;
+        counterAMBER2--;
+        if (counterAMBER2 == 0) {
+            counterRED2 = timeRED;
+        }
+        return;
+    }
 
-	case RED:
-		update_vertical_clock_buffer(counterRED2);
-		HAL_GPIO_WritePin(LED_RED1_GPIO_Port, LED_RED1_Pin, RESET);
-		HAL_GPIO_WritePin(LED_AMBER1_GPIO_Port, LED_AMBER1_Pin, SET);
-		HAL_GPIO_WritePin(LED_GREEN1_GPIO_Port, LED_GREEN1_Pin, SET);
+    // --- RED ---
+    if (counterRED2 > 0) {
+        update_vertical_clock_buffer(counterRED2);
+        HAL_GPIO_WritePin(LED_RED1_GPIO_Port,   LED_RED1_Pin,   RESET);
+        HAL_GPIO_WritePin(LED_AMBER1_GPIO_Port, LED_AMBER1_Pin, SET);
+        HAL_GPIO_WritePin(LED_GREEN1_GPIO_Port, LED_GREEN1_Pin, SET);
 
-		if (--counterRED2 == 0) {
-			counterGREEN2 = timeGREEN;
-			state_vertical = GREEN;
-		}
-		break;
-	}
+        counterRED2--;
+        if (counterRED2 == 0) {
+            counterGREEN2 = timeGREEN;
+        }
+        return;
+    }
 }
 
-/* ===================== HORIZONTAL TRAFFIC ===================== */
+
 void LED_HORIZONTAL_RUN(void) {
-	switch (state_horizontal) {
-	case RED:
-		update_horizontal_clock_buffer(counterRED1);
-		HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, RESET);
-		HAL_GPIO_WritePin(LED_AMBER2_GPIO_Port, LED_AMBER2_Pin, SET);
-		HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, SET);
+    // --- RED ---
+    if (counterRED1 > 0) {
+        update_horizontal_clock_buffer(counterRED1);
+        HAL_GPIO_WritePin(LED_RED2_GPIO_Port,   LED_RED2_Pin,   RESET);
+        HAL_GPIO_WritePin(LED_AMBER2_GPIO_Port, LED_AMBER2_Pin, SET);
+        HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, SET);
 
-		if (--counterRED1 == 0) {
-			counterAMBER1 = timeAMBER;
-			state_horizontal = AMBER;
-		}
-		break;
+        counterRED1--;
+        if (counterRED1 == 0) {
+            counterGREEN1 = timeGREEN;
+        }
+        return;
+    }
 
-	case AMBER:
-		update_horizontal_clock_buffer(counterAMBER1);
-		HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, SET);
-		HAL_GPIO_WritePin(LED_AMBER2_GPIO_Port, LED_AMBER2_Pin, RESET);
-		HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, SET);
+    // --- GREEN ---
+    if (counterGREEN1 > 0) {
+        update_horizontal_clock_buffer(counterGREEN1);
+        HAL_GPIO_WritePin(LED_RED2_GPIO_Port,   LED_RED2_Pin,   SET);
+        HAL_GPIO_WritePin(LED_AMBER2_GPIO_Port, LED_AMBER2_Pin, SET);
+        HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, RESET);
 
-		if (--counterAMBER1 == 0) {
-			counterGREEN1 = timeGREEN;
-			state_horizontal = GREEN;
-		}
-		break;
+        counterGREEN1--;
+        if (counterGREEN1 == 0) {
+            counterAMBER1 = timeAMBER;
+        }
+        return;
+    }
 
-	case GREEN:
-		update_horizontal_clock_buffer(counterGREEN1);
-		HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, SET);
-		HAL_GPIO_WritePin(LED_AMBER2_GPIO_Port, LED_AMBER2_Pin, SET);
-		HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, RESET);
+    // --- AMBER ---
+    if (counterAMBER1 > 0) {
+        update_horizontal_clock_buffer(counterAMBER1);
+        HAL_GPIO_WritePin(LED_RED2_GPIO_Port,   LED_RED2_Pin,   SET);
+        HAL_GPIO_WritePin(LED_AMBER2_GPIO_Port, LED_AMBER2_Pin, RESET);
+        HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, SET);
 
-		if (--counterGREEN1 == 0) {
-			counterRED1 = timeRED;
-			state_horizontal = RED;
-		}
-		break;
-	}
+        counterAMBER1--;
+        if (counterAMBER1 == 0) {
+            counterRED1 = timeRED;
+        }
+        return;
+    }
 }
-
-/* ===================== MAIN RUN ===================== */
+// Funtion is call when we want to display led in each mode
 void LED_TRAFFIC_RUN(void) {
 	LED_HORIZONTAL_RUN();
 	LED_VERTICAL_RUN();

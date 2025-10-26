@@ -1,9 +1,9 @@
-traffic_led.c:31:6:LED_TRAFFIC_INIT	8	static
+traffic_led.c:28:6:LED_TRAFFIC_INIT	8	static
 traffic_led.c:40:6:LED_TRAFFIC_LOAD_BUFFER	4	static
-traffic_led.c:51:9:LED_TRAFFIC_GET_RED	4	static
-traffic_led.c:55:9:LED_TRAFFIC_GET_AMBER	4	static
-traffic_led.c:59:9:LED_TRAFFIC_GET_GREEN	4	static
-traffic_led.c:63:6:LED_TRAFFIC_STORE_BUFFER	16	static
-traffic_led.c:68:6:LED_VERTICAL_RUN	8	static
-traffic_led.c:109:6:LED_HORIZONTAL_RUN	8	static
-traffic_led.c:150:6:LED_TRAFFIC_RUN	8	static
+traffic_led.c:53:6:LED_TRAFFIC_STORE_BUFFER	16	static
+traffic_led.c:56:9:LED_TRAFFIC_GET_RED	4	static
+traffic_led.c:60:9:LED_TRAFFIC_GET_AMBER	4	static
+traffic_led.c:64:9:LED_TRAFFIC_GET_GREEN	4	static
+traffic_led.c:69:6:LED_VERTICAL_RUN	8	static
+traffic_led.c:114:6:LED_HORIZONTAL_RUN	8	static
+traffic_led.c:158:6:LED_TRAFFIC_RUN	8	static

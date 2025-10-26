@@ -10,27 +10,29 @@
 #include "input_reading.h"
 #include "software_timer.h"
 
-int timer0_counter;//Bộ đếm chính, dùng cho FSM đèn giao thông
-int timer1_counter;// Bộ đếm cho LED 7 đoạn (hiển thị số)
-int timer2_counter;//Bộ đếm cho hiệu ứng nhấp nháy (blink LED)
 
+int timer0_counter=0;
+int led7_counter=0;
+int blink_counter=0;
+
+// initialize flag
 int timer0_flag = 0;
-int timer1_flag = 0;
-int timer2_flag = 0;
+int led_7_flag = 0;
+int blink_flag = 0;
 
-void setTimer0(int duration){
-	timer0_counter = duration / TIMER_CYCLE;
+void setTimer(int duration){
+	timer0_counter = duration/TIMER_CYCLE;
 	timer0_flag = 0;
 }
 
-void setTimer1(int duration){
-	timer1_counter = duration / TIMER_CYCLE;
-	timer1_flag = 0;
+void setLED7Timer(int duration){
+	led7_counter = duration/TIMER_CYCLE;
+	led_7_flag = 0;
 }
 
-void setTimer2(int duration){
-	timer2_counter = duration / TIMER_CYCLE;
-	timer2_flag = 0;
+void setBlinkLedTimer(int duration){
+	blink_counter = duration/TIMER_CYCLE;
+	blink_flag = 0;
 }
 
 void timer_run(){
@@ -38,12 +40,12 @@ void timer_run(){
 		timer0_counter--;
 		if (timer0_counter == 0) timer0_flag = 1;
 	}
-	if (timer1_counter > 0){
-		timer1_counter--;
-		if (timer1_counter == 0) timer1_flag = 1;
+	if (led7_counter > 0){
+		led7_counter--;
+		if (led7_counter == 0) led_7_flag = 1;
 	}
-	if (timer2_counter > 0){
-		timer2_counter--;
-		if (timer2_counter == 0) timer2_flag = 1;
+	if (blink_counter > 0){
+		blink_counter--;
+		if (blink_counter == 0) blink_flag = 1;
 	}
 }

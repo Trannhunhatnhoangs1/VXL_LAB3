@@ -14,5 +14,5 @@ void displayLED7(uint8_t index);
 void update_all_clock_buffer(uint8_t time1, uint8_t time2);
 void update_horizontal_clock_buffer(uint8_t time);
 void update_vertical_clock_buffer(uint8_t time);
-
+void LED7_Init(void);
 #endif /* INC_LED_DISPLAY_H_ */

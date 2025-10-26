@@ -25,7 +25,16 @@ void clearAllLED7(void){
 	HAL_GPIO_WritePin(EN2_GPIO_Port, EN2_Pin, SET);
 	HAL_GPIO_WritePin(EN3_GPIO_Port, EN3_Pin, SET);
 }
-
+void LED7_Init(void){
+    for(int i = 0; i < NUMBER_OF_7_SEG_LED; i++){
+        numBuffer[i] = 0;
+        buffer[i] = 0;
+    }
+    clearAllLED7();
+    HAL_GPIO_WritePin(SEG_A_GPIO_Port, SEG_A_Pin|
+                      SEG_B_Pin|SEG_C_Pin|SEG_D_Pin|
+                      SEG_E_Pin|SEG_F_Pin|SEG_G_Pin, GPIO_PIN_SET); // tắt tất cả segment
+}
 
 void update_all_clock_buffer(uint8_t time1, uint8_t time2){
 	numBuffer[0] = time1/10;

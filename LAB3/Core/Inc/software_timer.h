@@ -14,7 +14,6 @@ extern int timer0_flag;
 extern int led_7_flag ;
 extern int blink_flag;
 
-
 void setTimer(int duration);
 void setLED7Timer(int duration);
 void setBlinkLedTimer(int duration);

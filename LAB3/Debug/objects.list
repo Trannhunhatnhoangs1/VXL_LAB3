@@ -1,5 +1,5 @@
+"./Core/Src/button.o"
 "./Core/Src/fsm.o"
-"./Core/Src/input_reading.o"
 "./Core/Src/led_display.o"
 "./Core/Src/main.o"
 "./Core/Src/software_timer.o"

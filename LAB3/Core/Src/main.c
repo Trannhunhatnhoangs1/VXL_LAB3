@@ -22,11 +22,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "input_reading.h"
 #include "software_timer.h"
 #include "traffic_led.h"
 #include "led_display.h"
 #include "fsm.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -94,24 +94,26 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT (&htim2 );
-  button_reading_Init();
+  button_Init();
   LED_TRAFFIC_STORE_BUFFER(5, 0);
   LED_TRAFFIC_STORE_BUFFER(2, 1);
   LED_TRAFFIC_STORE_BUFFER(3, 2);
   LED_TRAFFIC_LOAD_BUFFER();
 
+
+   setTimer(1000);
+   setBlinkLedTimer(250);
+   setLED7Timer(250);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
-
-  setTimer(1000);
-  setBlinkLedTimer(250);
-  setLED7Timer(250);
   while (1)
   {
-	  fsm_for_output_processing();
+
+	  fsm_traffic_run();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -175,7 +177,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 7999;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 9;
+  htim2.Init.Period = 8;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
@@ -252,7 +254,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback ( TIM_HandleTypeDef * htim )
 {
-	button_reading();
+	getKeyInput();
 	timer_run();
 }
 /* USER CODE END 4 */

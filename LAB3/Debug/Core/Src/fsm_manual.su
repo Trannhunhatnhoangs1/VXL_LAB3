@@ -1,0 +1,3 @@
+fsm_manual.c:18:6:FSM_MANUAL_Init	4	static
+fsm_manual.c:26:6:FSM_MANUAL_Run	8	static
+fsm_manual.c:201:9:isInManualMode	4	static

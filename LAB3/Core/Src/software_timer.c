@@ -6,14 +6,15 @@
  */
 
 
+#include <button.h>
 #include "main.h"
-#include "input_reading.h"
 #include "software_timer.h"
 
 
 int timer0_counter=0;
 int led7_counter=0;
 int blink_counter=0;
+
 
 // initialize flag
 int timer0_flag = 0;

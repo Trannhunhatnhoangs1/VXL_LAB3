@@ -4,8 +4,8 @@
  *  Created on: Aug 1, 2025
  *      Author: dell pro
  */
+#include <button.h>
 #include "main.h"
-#include "input_reading.h"
 #include "software_timer.h"
 #include "traffic_led.h"
 #include "led_display.h"
@@ -15,6 +15,5 @@
 #define INC_FSM_H_
 
 
-void fsm_for_output_processing ( void );
-
+void fsm_traffic_run( void );
 #endif /* INC_FSM_H_ */

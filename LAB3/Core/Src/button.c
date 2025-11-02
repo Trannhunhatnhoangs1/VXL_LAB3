@@ -7,7 +7,7 @@
 
 #include <button.h>
 #include "main.h"
-#define N0_OF_BUTTONS 					3
+#define N0_OF_BUTTONS 					4
 #define BUTTON_IS_PRESSED 				GPIO_PIN_RESET
 #define BUTTON_IS_RELEASED 				GPIO_PIN_SET
 
@@ -17,7 +17,7 @@ static GPIO_PinState buttonBuffer[N0_OF_BUTTONS];
 static GPIO_PinState debounceButtonBuffer1[N0_OF_BUTTONS];
 static GPIO_PinState debounceButtonBuffer2[N0_OF_BUTTONS];
 
-static uint16_t buttonPin[N0_OF_BUTTONS] = {BUTTON0_Pin, BUTTON1_Pin, BUTTON2_Pin};
+static uint16_t buttonPin[N0_OF_BUTTONS] = {BUTTON0_Pin, BUTTON1_Pin, BUTTON2_Pin, BUTTON3_Pin};
 
 //xet dang o trang thai ko nhan
 void button_Init(void){

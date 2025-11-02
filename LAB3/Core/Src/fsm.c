@@ -1,11 +1,11 @@
 #include "fsm.h"
-
+#include "fsm_manual.h"
 #define RED   0
 #define AMBER 1
 #define GREEN 2
 
-enum MODE { MODE_1 , MODE_2 , MODE_3 , MODE_4 };
-enum MODE Mode = MODE_1;
+
+ MODE Mode = MODE_1;
 
 static uint8_t counter_mode2, counter_mode3, counter_mode4;
 static uint8_t buttonflag0, buttonflag1, buttonflag2;
@@ -86,7 +86,24 @@ void adjust_time_auto(){
         time_red = time_amber + time_green;
     }
 }
+void reset_to_default_mode1(void) {
+    counter_mode2 = 0;
+    counter_mode3 = 0;
+    counter_mode4 = 0;
 
+    buttonflag0 = 0;
+    buttonflag1 = 0;
+    buttonflag2 = 0;
+
+    index_led7 = 0;
+    prev_saved = -1;
+
+    LED_TRAFFIC_SET_RED(time_red);
+    LED_TRAFFIC_SET_AMBER(time_amber);
+    LED_TRAFFIC_SET_GREEN(time_green);
+    LED_TRAFFIC_APPLY_TIMES();
+    LED_TRAFFIC_RESET_COUNTER();
+}
 void fsm_traffic_run(void){
     if(init == 0){
         LED_TRAFFIC_LOAD_BUFFER();
@@ -98,7 +115,7 @@ void fsm_traffic_run(void){
         setLED7Timer(TIMER_CYCLE);
         return;
     }
-
+    if (Mode == MODE_MANUAL) return;
     switch(Mode){
     // ==========================================================
     case MODE_1: // chạy bình thường
@@ -125,6 +142,7 @@ void fsm_traffic_run(void){
             index_led7 = (index_led7 + 1) % 4;
             setLED7Timer(250);
         }
+
         break;
 
     // ==========================================================
@@ -274,4 +292,5 @@ void fsm_traffic_run(void){
         Mode = MODE_1;
         break;
     }
+
 }

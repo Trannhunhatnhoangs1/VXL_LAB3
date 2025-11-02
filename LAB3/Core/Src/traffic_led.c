@@ -28,7 +28,7 @@ static uint8_t timeGREEN = 3;
 static uint8_t verticalState = GREEN;
 static uint8_t horizontalState = RED;
 
-// ------------------------- INIT -------------------------
+//  INIT
 void LED_TRAFFIC_INIT(void){
     HAL_GPIO_WritePin(LED_RED1_GPIO_Port, LED_RED1_Pin, SET);
     HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, SET);
@@ -38,7 +38,7 @@ void LED_TRAFFIC_INIT(void){
     HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, SET);
 }
 
-// ------------------------- LOAD/SAVE BUFFER -------------------------
+//  LOAD/SAVE BUFFER
 void LED_TRAFFIC_LOAD_BUFFER(void){
     counterRED1   = bufferTimerForLED[RED];
     counterAMBER1 = bufferTimerForLED[AMBER];
@@ -59,7 +59,7 @@ uint8_t LED_TRAFFIC_GET_RED(void) { return bufferTimerForLED[RED]; }
 uint8_t LED_TRAFFIC_GET_AMBER(void) { return bufferTimerForLED[AMBER]; }
 uint8_t LED_TRAFFIC_GET_GREEN(void) { return bufferTimerForLED[GREEN]; }
 
-// ------------------------- SET -------------------------
+//  SET
 void LED_TRAFFIC_SET_RED(uint8_t val){
     if(val < 1) val = 1;
     timeRED = val;
@@ -92,7 +92,7 @@ void LED_TRAFFIC_APPLY_TIMES(void){
     verticalState   = GREEN;
     horizontalState = RED;
 }
-// ------------------------- RESET COUNTER -------------------------
+// RESET COUNTER
 void LED_TRAFFIC_RESET_COUNTER(void){
     counterRED1   = bufferTimerForLED[RED];
     counterAMBER1 = bufferTimerForLED[AMBER];
@@ -102,7 +102,7 @@ void LED_TRAFFIC_RESET_COUNTER(void){
     counterGREEN2 = bufferTimerForLED[GREEN];
 }
 
-// ------------------------- RUN LOGIC -------------------------
+//RUN
 void LED_VERTICAL_RUN(void){
     switch(verticalState){
         case GREEN:

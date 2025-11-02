@@ -1,3 +1,4 @@
 fsm.c:25:13:reconcile_on_pair	16	static
 fsm.c:84:6:adjust_time_auto	4	static
-fsm.c:90:6:fsm_traffic_run	8	static
+fsm.c:89:6:reset_to_default_mode1	8	static
+fsm.c:107:6:fsm_traffic_run	8	static

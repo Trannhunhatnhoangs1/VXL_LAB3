@@ -115,7 +115,7 @@ void fsm_traffic_run(void){
         setLED7Timer(TIMER_CYCLE);
         return;
     }
-    if (Mode == MODE_MANUAL) return;
+    if (is_manual_active()) return;
     switch(Mode){
     // ==========================================================
     case MODE_1: // chạy bình thường

@@ -7,7 +7,8 @@
 #define INC_FSM_MANUAL_H_
 
 #include "main.h"
+
 void fsm_manual_init(void);
 void fsm_manual_run();
-
+uint8_t is_manual_active(void);
 #endif /* INC_FSM_MANUAL_H_ */

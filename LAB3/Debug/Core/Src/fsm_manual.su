@@ -1,5 +1,6 @@
-fsm_manual.c:18:13:turn_off_all_leds	8	static
-fsm_manual.c:28:13:led_manual	16	static
-fsm_manual.c:31:13:set_led_state	16	static
-fsm_manual.c:48:6:fsm_manual_init	8	static
-fsm_manual.c:56:6:fsm_manual_run	8	static
+fsm_manual.c:27:13:turn_off_all_leds	8	static
+fsm_manual.c:38:13:led_manual	16	static
+fsm_manual.c:43:13:set_led_state	16	static
+fsm_manual.c:62:6:fsm_manual_init	8	static
+fsm_manual.c:72:6:fsm_manual_run	8	static
+fsm_manual.c:136:9:is_manual_active	4	static

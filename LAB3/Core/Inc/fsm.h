@@ -19,7 +19,7 @@ typedef enum {
     MODE_2,
     MODE_3,
     MODE_4,
-	MODE_MANUAL,
+	//MODE_MANUAL,
 } MODE;
 extern MODE Mode;
 extern int init;
